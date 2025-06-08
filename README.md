@@ -60,8 +60,12 @@ cd student-api
 ```bash
 ./mvnw spring-boot:run
 ```
+3. Import os Endpoint:
+```
+Arquivo thunder-collection
+```
 
-3. Acesse a API em:
+4. Acesse a API em:
 ```
 http://localhost:8080
 ```
