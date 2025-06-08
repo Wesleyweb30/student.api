@@ -42,7 +42,7 @@ Uma API RESTful desenvolvida com Spring Boot para gerenciar usuários (Alunos, P
 - JWT (JSON Web Token)
 - Maven
 - JPA (Hibernate)
-- H2 / PostgreSQL (dependendo do ambiente)
+- H2 / MYSQL (dependendo do ambiente)
 
 ---
 
@@ -51,7 +51,7 @@ Uma API RESTful desenvolvida com Spring Boot para gerenciar usuários (Alunos, P
 1. Clone o repositório:
 
 ```bash
-git clone https://github.com/seu-usuario/student-api.git
+git clone https://github.com/Wesleyweb30/student-api.git
 cd student-api
 ```
 
@@ -70,7 +70,7 @@ http://localhost:8080
 
 ## 🧪 Testes
 
-Você pode testar as rotas usando ferramentas como Postman, Insomnia ou o Swagger (se configurado).
+Você pode testar as rotas usando ferramentas como Thunder Cliente, Postman, Insomnia ou o Swagger (se configurado).
 
 ---
 
@@ -92,7 +92,7 @@ src
 ├── dto
 ├── entity
 ├── repository
-├── security / config
+├── config
 ├── service
 └── util
 ```
