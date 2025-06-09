@@ -1,5 +1,7 @@
 package com.student.api.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,9 @@ public class InstituicaoService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    public InstituicaoRepository getRepository() { return instituicaoRepository; }
+    public InstituicaoRepository getRepository() {
+        return instituicaoRepository;
+    }
 
     public void cadastrar(InstituicaoRegisterDTO dto) {
         if (instituicaoRepository.findByEmail(dto.email()).isPresent()) {
@@ -31,5 +35,9 @@ public class InstituicaoService {
         instituicao.setTipo(UserType.INSTITUICAO);
 
         instituicaoRepository.save(instituicao);
+    }
+
+    public List<Instituicao> listar() {
+        return instituicaoRepository.findAll();
     }
 }

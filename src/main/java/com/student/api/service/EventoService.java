@@ -1,10 +1,12 @@
 package com.student.api.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.student.api.dto.AlunoResponseDTO;
 import com.student.api.dto.EventoCreateDTO;
 import com.student.api.model.Aluno;
 import com.student.api.model.Evento;
@@ -59,6 +61,18 @@ public class EventoService {
         }
     }
 
+    public List<AlunoResponseDTO> getParticipantes(Long eventoId) {
+        Evento evento = eventoRepo.findById(eventoId)
+                .orElseThrow(() -> new IllegalArgumentException("Evento não encontrado"));
+
+        return evento.getAlunosInscritos().stream()
+                .map(aluno -> new AlunoResponseDTO(
+                        aluno.getId().toString(),
+                        aluno.getNome(),
+                        aluno.getEmail()))
+                .collect(Collectors.toList());
+    }
+
     public Evento buscarPorId(Long id) {
         return eventoRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Evento não encontrado"));
@@ -74,4 +88,31 @@ public class EventoService {
 
         eventoRepo.delete(evento);
     }
+
+    public List<Evento> buscarEventosDoUsuario(String email) {
+        // Verifica se é Aluno
+        var alunoOpt = alunoRepo.findByEmail(email);
+        if (alunoOpt.isPresent()) {
+            Aluno aluno = alunoOpt.get();
+            return eventoRepo.findAll().stream()
+                    .filter(e -> e.getAlunosInscritos().contains(aluno))
+                    .collect(Collectors.toList());
+        }
+
+        // Verifica se é Professor
+        var professorOpt = professorRepo.findByEmail(email);
+        if (professorOpt.isPresent()) {
+            return eventoRepo.findByProfessorResponsavelEmail(email);
+        }
+
+        // Verifica se é Instituicao
+        var instituicaoOpt = instituicaoRepo.findByEmail(email);
+        if (instituicaoOpt.isPresent()) {
+            return eventoRepo.findByInstituicaoCriadoraEmail(email);
+        }
+
+        // Nenhum usuário encontrado
+        throw new IllegalArgumentException("Usuário não encontrado");
+    }
+
 }

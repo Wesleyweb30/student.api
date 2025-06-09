@@ -1,9 +1,13 @@
 package com.student.api.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.student.api.dto.ProfessorListResponseDTO;
 import com.student.api.dto.ProfessorRegisterDTO;
 import com.student.api.dto.ProfessorUpdateDTO;
 import com.student.api.model.Instituicao;
@@ -22,7 +26,9 @@ public class ProfessorService {
     @Autowired
     private BCryptPasswordEncoder encoder;
 
-    public ProfessorRepository getRepository() { return profRepo; }
+    public ProfessorRepository getRepository() {
+        return profRepo;
+    }
 
     public void cadastrar(ProfessorRegisterDTO dto) {
         if (profRepo.findByEmail(dto.email()).isPresent()) {
@@ -53,5 +59,12 @@ public class ProfessorService {
         prof.setNome(dto.nome());
         prof.setSenha(encoder.encode(dto.senha()));
         profRepo.save(prof);
+    }
+
+    public List<ProfessorListResponseDTO> listarTodos() {
+        return profRepo.findAll()
+                .stream()
+                .map(ProfessorListResponseDTO::new)
+                .collect(Collectors.toList());
     }
 }
