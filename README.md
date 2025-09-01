@@ -42,7 +42,7 @@ Uma API RESTful desenvolvida com Spring Boot para gerenciar usuários (Alunos, P
 - JWT (JSON Web Token)
 - Maven
 - JPA (Hibernate)
-- MYSQL / MYSQL (dependendo do ambiente)
+- MYSQL
 
 ---
 
